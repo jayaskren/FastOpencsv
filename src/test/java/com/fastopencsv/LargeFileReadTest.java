@@ -43,7 +43,7 @@ public class LargeFileReadTest {
 			}
 //			assertEquals(264, count);
 //			assertEquals(9081, count);
-			assertEquals(275829, count);
+			assertEquals(275830, count);
 			
 			System.out.println(ADDRESS_FILE + " file has " + count + " rows");
 		}
