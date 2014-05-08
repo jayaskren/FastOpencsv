@@ -16,11 +16,11 @@
 			<comments>A business-friendly OSS license</comments>
 		</license>
 	</licenses>
-	<scm>
+	<!--  <scm>
 		<connection>scm:svn:https://opencsv.svn.sourceforge.net/svnroot/opencsv/trunk</connection>
 		<developerConnection>scm:svn:https://opencsv.svn.sourceforge.net/svnroot/opencsv/trunk</developerConnection>
 		<url>http://opencsv.svn.sourceforge.net/viewvc/opencsv/</url>
-	</scm>
+	</scm>-->
 	<developers>
 		<developer>
 			<id>glen-smith</id>
@@ -50,8 +50,8 @@
 	    <url>http://sourceforge.net/tracker/?group_id=148905</url>
 	</issueManagement>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>test</testSourceDirectory>
+		<!--  <sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>-->
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -133,7 +133,7 @@
 						<configuration>
 							<rules>
 								<requireJavaVersion>
-									<version>[1.5,1.6)</version>
+									<version>[1.7)</version>
 								</requireJavaVersion>
 							</rules>
 						</configuration>
