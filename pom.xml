@@ -103,22 +103,7 @@
 					</descriptorRefs>
 				</configuration>
 			</plugin>
-			<!--
-				gpg is required for Sonatype's publishing mechansism to central
-			-->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
@@ -133,7 +118,7 @@
 						<configuration>
 							<rules>
 								<requireJavaVersion>
-									<version>[1.7)</version>
+									<version>[1.7,)</version>
 								</requireJavaVersion>
 							</rules>
 						</configuration>
@@ -183,7 +168,7 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<distributionManagement>
+	<!-- <distributionManagement>
 		<repository>
 			<id>sonatype-repo</id>
 			<name>Sonatype Release Repo</name>
@@ -198,5 +183,5 @@
 			<id>opencsv.sf.net</id>
 			<url>scp://shell.sourceforge.net/home/groups/o/op/opencsv/htdocs</url>
 		</site>
-	</distributionManagement>
+	</distributionManagement> -->
 </project>

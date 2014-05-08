@@ -31,7 +31,6 @@ import java.util.List;
 public class CSVReader implements Closeable {
 	public final static int BUFFER_SIZE = 1024*1024;
     private Reader reader;
-
     private boolean hasNext = true;
 
     private CSVParser parser;
