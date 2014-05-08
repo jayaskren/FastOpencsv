@@ -154,16 +154,6 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
-		  <dependency>
-			   <groupId>com.sun.media</groupId>
-			   <artifactId>jai_codec</artifactId>
-			   <version>${jai-core.version}</version>
-		  </dependency>
-		  <dependency>
-			   <groupId>javax.media</groupId>
-			   <artifactId>jai_core</artifactId>
-			   <version>${jai-core.version}</version>
-		  </dependency>
 	</dependencies>
 	<reporting>
 		<plugins>
