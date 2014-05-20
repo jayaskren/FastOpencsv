@@ -16,11 +16,9 @@
 			<comments>A business-friendly OSS license</comments>
 		</license>
 	</licenses>
-	<!--  <scm>
-		<connection>scm:svn:https://opencsv.svn.sourceforge.net/svnroot/opencsv/trunk</connection>
-		<developerConnection>scm:svn:https://opencsv.svn.sourceforge.net/svnroot/opencsv/trunk</developerConnection>
-		<url>http://opencsv.svn.sourceforge.net/viewvc/opencsv/</url>
-	</scm>-->
+	<!-- <scm> <connection>scm:svn:https://opencsv.svn.sourceforge.net/svnroot/opencsv/trunk</connection> 
+		<developerConnection>scm:svn:https://opencsv.svn.sourceforge.net/svnroot/opencsv/trunk</developerConnection> 
+		<url>http://opencsv.svn.sourceforge.net/viewvc/opencsv/</url> </scm> -->
 	<developers>
 		<developer>
 			<id>glen-smith</id>
@@ -40,18 +38,17 @@
 			<email>sconway@users.sourceforge.net</email>
 		</developer>
 		<developer>
-		    <id>jay_askren</id>
-		    <name>Jay Askren</name>
-		    <email>jay.askren@gmail.com</email>
+			<id>jay_askren</id>
+			<name>Jay Askren</name>
+			<email>jay.askren@gmail.com</email>
 		</developer>
 	</developers>
 	<issueManagement>
-	    <system>Sourceforge</system>
-	    <url>http://sourceforge.net/tracker/?group_id=148905</url>
+		<system>Sourceforge</system>
+		<url>http://sourceforge.net/tracker/?group_id=148905</url>
 	</issueManagement>
 	<build>
-		<!--  <sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>test</testSourceDirectory>-->
+		<!-- <sourceDirectory>src</sourceDirectory> <testSourceDirectory>test</testSourceDirectory> -->
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -103,7 +100,7 @@
 					</descriptorRefs>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
@@ -125,10 +122,45 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.10</version>
+				<configuration>
+					<configLocation>
+						http://merc.footnote.com/ia-portal-dev/raw-file/default/IArchivesCheckstyleConfig.xml
+					</configLocation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<targetJdk>1.7</targetJdk>
+					<aggregate>true</aggregate>
+					<format>xml</format>
+					<!-- <rulesets> <ruleset>/pmd-rules.xml</ruleset> </rulesets> -->
+					<minimumTokens>200</minimumTokens>
+					<ignoreIdentifiers>false</ignoreIdentifiers>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>2.5.4</version>
+				<configuration>
+					<effort>Max</effort>
+					<xmlOutput>true</xmlOutput>
+					<findbugsXmlOutput>true</findbugsXmlOutput>
+					<findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
-	    
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -167,26 +199,16 @@
 				</configuration>
 			</plugin>
 			<plugin>
-			    <groupId>org.eluder.coveralls</groupId>
-			    <artifactId>coveralls-maven-plugin</artifactId>
-			    <version>2.2.0</version>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>2.2.0</version>
 			</plugin>
 		</plugins>
 	</reporting>
-	<!-- <distributionManagement>
-		<repository>
-			<id>sonatype-repo</id>
-			<name>Sonatype Release Repo</name>
-			<url>http://oss.sonatype.org/content/repositories/sourceforge-releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>sonatype-repo</id>
-			<name>Sonatype Snapshot Repo</name>
-			<url>http://oss.sonatype.org/content/repositories/sourceforge-snapshots/</url>
-		</snapshotRepository>
-		<site>
-			<id>opencsv.sf.net</id>
-			<url>scp://shell.sourceforge.net/home/groups/o/op/opencsv/htdocs</url>
-		</site>
-	</distributionManagement> -->
+	<!-- <distributionManagement> <repository> <id>sonatype-repo</id> <name>Sonatype 
+		Release Repo</name> <url>http://oss.sonatype.org/content/repositories/sourceforge-releases/</url> 
+		</repository> <snapshotRepository> <id>sonatype-repo</id> <name>Sonatype 
+		Snapshot Repo</name> <url>http://oss.sonatype.org/content/repositories/sourceforge-snapshots/</url> 
+		</snapshotRepository> <site> <id>opencsv.sf.net</id> <url>scp://shell.sourceforge.net/home/groups/o/op/opencsv/htdocs</url> 
+		</site> </distributionManagement> -->
 </project>
