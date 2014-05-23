@@ -16,7 +16,7 @@ import org.junit.Test;
 
 public class LargeFileReadTest {
 
-	
+	@Test
 	public void testReadLargeFile() throws Exception {
 		String ADDRESS_FILE = "/CtyxCty_US.csv";
 //		String ADDRESS_FILE = "/LoC-FullSiteMap-reduced.csv";

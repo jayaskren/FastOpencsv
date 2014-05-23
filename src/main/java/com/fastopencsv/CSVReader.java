@@ -233,7 +233,7 @@ public class CSVReader implements Closeable {
      * @throws IOException
      *             if bad things happen during the read
      */
-    public String[] readNext() throws IOException {
+    public final String[] readNext() throws IOException {
     	String[] result = null;
     	do {
     		nextLine = getNextLine();
@@ -262,7 +262,7 @@ public class CSVReader implements Closeable {
      * @throws IOException
      *             if bad things happen during the read
      */
-    private char[] getNextLine() throws IOException {
+    private final char[] getNextLine() throws IOException {
     	if (!this.linesSkiped) {
             for (int i = 0; i < skipLines; i++) {
                 readLine();
@@ -276,11 +276,11 @@ public class CSVReader implements Closeable {
         return hasNext ? nextLine : null;
     }
     
-    public char[] getNextLineText() {
+    public final char[] getNextLineText() {
 		return nextLine;
 	}
     
-    char[] readLine() throws IOException{
+    final char[] readLine() throws IOException{
     	boolean foundLine = false;
     	char[] returnLine = null;
     	char[] partialLine = null;
@@ -360,7 +360,7 @@ public class CSVReader implements Closeable {
     	return returnLine;
     }
 	
-    public static int[] getNextLineBoundaries(int start, int end, char[] characters) {
+    public final static int[] getNextLineBoundaries(int start, int end, char[] characters) {
     	int[] returnValue = new int[]{-1,-1};
     	final int length = Math.min(characters.length, end);
     	for (int i=start; i< length; i++) {
@@ -390,7 +390,7 @@ public class CSVReader implements Closeable {
     	return returnValue;
     }
     
-    public long getTotalCharactersRead() {
+    public final long getTotalCharactersRead() {
 		return totalCharactersRead;
 	}
 
