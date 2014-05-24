@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fastopencsv.CSVReader;
+import com.fastopencsv.AbstractCsvReader;
 
 
 /**
@@ -33,7 +33,7 @@ public class HeaderColumnNameMappingStrategy<T> implements MappingStrategy<T> {
     protected Map<String, PropertyDescriptor> descriptorMap = null;
     protected Class<T> type;
 
-    public void captureHeader(CSVReader reader) throws IOException {
+    public void captureHeader(AbstractCsvReader reader) throws IOException {
         header = reader.readNext();
     }
 

@@ -2,7 +2,8 @@ package com.fastopencsv.bean;
 
 import org.junit.Test;
 
-import com.fastopencsv.CSVReader;
+import com.fastopencsv.AbstractCsvReader;
+import com.fastopencsv.CsvStreamReader;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -15,9 +16,9 @@ public class CsvToBeanTest {
             "kyle,abc123456,123\n" +
             "jimmy,def098765,456 ";
 
-    private CSVReader createReader() {
+    private AbstractCsvReader createReader() {
         StringReader reader = new StringReader(TEST_STRING);
-        return new CSVReader(reader);
+        return new CsvStreamReader(reader);
     }
 
     private MappingStrategy createErrorMappingStrategy() {
@@ -31,7 +32,7 @@ public class CsvToBeanTest {
                 return null;  //To change body of implemented methods use File | Settings | File Templates.
             }
 
-            public void captureHeader(CSVReader reader) throws IOException {
+            public void captureHeader(AbstractCsvReader reader) throws IOException {
                 throw new IOException("This is the test exception");
             }
         };

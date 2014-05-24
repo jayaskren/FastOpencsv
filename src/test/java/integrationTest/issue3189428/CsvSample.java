@@ -8,8 +8,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import com.fastopencsv.AbstractCsvReader;
 import com.fastopencsv.CSVParser;
-import com.fastopencsv.CSVReader;
+import com.fastopencsv.CsvStreamReader;
 import com.fastopencsv.CSVWriter;
 import com.fastopencsv.bean.ColumnPositionMappingStrategy;
 import com.fastopencsv.bean.CsvToBean;
@@ -62,7 +63,7 @@ public class CsvSample {
      */
     protected void testRawCsvRead(String originalCommentText)
             throws FileNotFoundException, IOException {
-        CSVReader reader = new CSVReader(new FileReader(filePath));
+        AbstractCsvReader reader = new CsvStreamReader(new FileReader(filePath));
         String[] nextLine = null;
         int count = 0;
         while ((nextLine = reader.readNext()) != null) {
@@ -105,7 +106,7 @@ public class CsvSample {
         mappingStrategy.setColumnMapping(columns);
 
         CsvToBean csv = new CsvToBean();
-        CSVReader reader = new CSVReader(new FileReader(filePath), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, CSVParser.DEFAULT_ESCAPE_CHARACTER, 0, false, false);
+        AbstractCsvReader reader = new CsvStreamReader(new FileReader(filePath), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, CSVParser.DEFAULT_ESCAPE_CHARACTER, 0, false, false);
         List<MyBean> list = csv.parse(mappingStrategy, reader);
 
         if (list.size() != 3) {

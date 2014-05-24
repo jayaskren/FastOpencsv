@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
 
 public class CSVReaderTest {
 
-    CSVReader csvr;
+    AbstractCsvReader csvr;
 
 
     /**
@@ -43,7 +43,7 @@ public class CSVReaderTest {
         sb.append("\"Glen \"\"The Man\"\" Smith\",Athlete,Developer\n"); // Test quoted quote chars
         sb.append("\"\"\"\"\"\",\"test\"\n"); // """""","test"  representing:  "", test
         sb.append("\"a\nb\",b,\"\nd\",e\n");
-        csvr = new CSVReader(new StringReader(sb.toString()));
+        csvr = new CsvStreamReader(new StringReader(sb.toString()));
     }
 
     @After
@@ -59,35 +59,35 @@ public class CSVReaderTest {
     	char[] line = new char[]{'\r', '\n', 'c', 'h', 'i', '.', 'k', 'p', 'h', '\n', 
     			'\r', 'n', 'o', '\n', 'p', 'a', 'g', 'o', 'r', 't'};
     	
-    	int[] nextLine = CSVReader.getNextLineBoundaries(0, 1000, line);
+    	int[] nextLine = CsvStreamReader.getNextLineBoundaries(0, 1000, line);
     	assertArrayEquals(new int[]{0,0}, nextLine);
     	
-    	nextLine = CSVReader.getNextLineBoundaries(2, 1000, line);
+    	nextLine = CsvStreamReader.getNextLineBoundaries(2, 1000, line);
     	assertArrayEquals(new int[]{2,8}, nextLine);
     	
-    	nextLine = CSVReader.getNextLineBoundaries(0, 4, line);
+    	nextLine = CsvStreamReader.getNextLineBoundaries(0, 4, line);
     	assertArrayEquals(new int[]{0,0}, nextLine);
     	
-    	nextLine = CSVReader.getNextLineBoundaries(9, line.length, line);
+    	nextLine = CsvStreamReader.getNextLineBoundaries(9, line.length, line);
     	assertArrayEquals(new int[]{9,9}, nextLine);
     	
-    	nextLine = CSVReader.getNextLineBoundaries(11, line.length, line);
+    	nextLine = CsvStreamReader.getNextLineBoundaries(11, line.length, line);
     	assertArrayEquals(new int[]{11,12}, nextLine);
     	
-    	nextLine = CSVReader.getNextLineBoundaries(13, line.length, line);
+    	nextLine = CsvStreamReader.getNextLineBoundaries(13, line.length, line);
     	assertArrayEquals(new int[]{13,13}, nextLine);
     	
-    	nextLine = CSVReader.getNextLineBoundaries(14, line.length, line);
+    	nextLine = CsvStreamReader.getNextLineBoundaries(14, line.length, line);
     	assertArrayEquals(new int[]{14,-1}, nextLine);
     	
     	line = new char[]{'\r', '\n', '\n', 
     			'\r', '\n',};
     	
-    	assertArrayEquals(new int[]{0,0},CSVReader.getNextLineBoundaries(0, 1000, line));
+    	assertArrayEquals(new int[]{0,0},CsvStreamReader.getNextLineBoundaries(0, 1000, line));
     	
     	line = new char[]{'\r', '\n', 'c', 'h', 'i', '.', 'k', 'p', 'h', '\n', '\r'};
     	
-    	assertArrayEquals(new int[]{10,10}, CSVReader.getNextLineBoundaries(10, line.length, line));
+    	assertArrayEquals(new int[]{10,10}, CsvStreamReader.getNextLineBoundaries(10, line.length, line));
     }
 
     /**
@@ -144,7 +144,7 @@ public class CSVReaderTest {
         sb.append("\"Glen \"\"The Man\"\" Smith\",Athlete,Developer\n"); // Test quoted quote chars
         sb.append("\"\"\"\"\"\",\"test\"\n"); // """""","test"  representing:  "", test
         sb.append("\"a\nb\",b,\"\nd\",e\n");
-        csvr = new CSVReader(new StringReader(sb.toString()), ',', '\"', true);
+        csvr = new CsvStreamReader(new StringReader(sb.toString()), ',', '\"', true);
 
         // test normal case
         String[] nextLine = csvr.readNext();
@@ -205,7 +205,7 @@ public class CSVReaderTest {
 //    	sb.append('k');
         
         
-        CSVReader c = new CSVReader(new StringReader(str), ',', '"');
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(str), ',', '"');
 
         try {
 			char[] nextLine = c.readLine();
@@ -240,7 +240,7 @@ public class CSVReaderTest {
         StringBuilder sb = new StringBuilder(CSVParser.INITIAL_READ_SIZE);
         sb.append("a\tb\tc").append("\n");   // tab separated case
         sb.append("a\t'b\tb\tb'\tc").append("\n");  // single quoted elements
-        CSVReader c = new CSVReader(new StringReader(sb.toString()), '\t', '\'');
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()), '\t', '\'');
 
         String[] nextLine = c.readNext();
         assertEquals(3, nextLine.length);
@@ -254,7 +254,7 @@ public class CSVReaderTest {
         StringBuilder sb = new StringBuilder(CSVParser.INITIAL_READ_SIZE);
         sb.append("a\tb\tc").append("\n");   // tab separated case
 
-        CSVReader c = new CSVReader(new StringReader(sb.toString()), '\t');
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()), '\t');
 
         String[] nextLine = c.readNext();
         assertEquals(3, nextLine.length);
@@ -273,7 +273,7 @@ public class CSVReaderTest {
         sb.append("Skip this line\t with tab").append("\n");   // should skip this
         sb.append("And this line too").append("\n");   // and this
         sb.append("a\t'b\tb\tb'\tc").append("\n");  // single quoted elements
-        CSVReader c = new CSVReader(new StringReader(sb.toString()), '\t', '\'', 2);
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()), '\t', '\'', 2);
 
         String[] nextLine = c.readNext();
         assertEquals(3, nextLine.length);
@@ -294,7 +294,7 @@ public class CSVReaderTest {
         sb.append("Skip this line?t with tab").append("\n");   // should skip this
         sb.append("And this line too").append("\n");   // and this
         sb.append("a\t'b\tb\tb'\t'c'").append("\n");  // single quoted elements
-        CSVReader c = new CSVReader(new StringReader(sb.toString()), '\t', '\'', '?', 2);
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()), '\t', '\'', '?', 2);
 
         String[] nextLine = c.readNext();
 
@@ -316,7 +316,7 @@ public class CSVReaderTest {
 
         sb.append("a,1234567,c").append("\n");// a,1234,c
 
-        CSVReader c = new CSVReader(new StringReader(sb.toString()));
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()));
 
         String[] nextLine = c.readNext();
         assertEquals(3, nextLine.length);
@@ -341,7 +341,7 @@ public class CSVReaderTest {
 
         sb.append("a,'''',c").append("\n");// a,',c
 
-        CSVReader c = new CSVReader(new StringReader(sb.toString()), ',', '\'');
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()), ',', '\'');
 
         String[] nextLine = c.readNext();
         assertEquals(3, nextLine.length);
@@ -366,7 +366,7 @@ public class CSVReaderTest {
 
         sb.append("a,'',c").append("\n");// a,,c
 
-        CSVReader c = new CSVReader(new StringReader(sb.toString()), ',', '\'');
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()), ',', '\'');
 
         String[] nextLine = c.readNext();
         assertEquals(3, nextLine.length);
@@ -384,7 +384,7 @@ public class CSVReaderTest {
 
         sb.append("\"a\",\"b\",\"c\"   ");
 
-        CSVReader c = new CSVReader(new StringReader(sb.toString()), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, true);
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, true);
 
         String[] nextLine = c.readNext();
         assertEquals(3, nextLine.length);
@@ -402,7 +402,7 @@ public class CSVReaderTest {
 
         sb.append("a,\"123\\\"4567\",c").append("\n");// a,123"4",c
 
-        CSVReader c = new CSVReader(new StringReader(sb.toString()));
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()));
 
         String[] nextLine = c.readNext();
         assertEquals(3, nextLine.length);
@@ -418,7 +418,7 @@ public class CSVReaderTest {
 
         sb.append("a,\"123\\\\4567\",c").append("\n");// a,123"4",c
 
-        CSVReader c = new CSVReader(new StringReader(sb.toString()));
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()));
 
         String[] nextLine = c.readNext();
         assertEquals(3, nextLine.length);
@@ -442,7 +442,7 @@ public class CSVReaderTest {
 
         sb.append("a,'',c").append("\n");// a,'',c
 
-        CSVReader c = new CSVReader(new StringReader(sb.toString()));
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()));
 
         String[] nextLine = c.readNext();
         assertEquals(3, nextLine.length);
@@ -466,7 +466,7 @@ public class CSVReaderTest {
 
         sb.append("\"a\",\"1234567\",\"c\"").append("\n"); // "a","1234567","c"
 
-        CSVReader c = new CSVReader(new StringReader(sb.toString()), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, true);
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, true);
 
         String[] nextLine = c.readNext();
         assertEquals(3, nextLine.length);
@@ -485,7 +485,7 @@ public class CSVReaderTest {
 
         sb.append("a,b,c,ddd\\\"eee\nf,g,h,\"iii,jjj\"");
 
-        CSVReader c = new CSVReader(new StringReader(sb.toString()));
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()));
 
         String[] nextLine = c.readNext();
 
@@ -501,7 +501,7 @@ public class CSVReaderTest {
 
         sb.append("a,b,c,ddd\\\"eee\nf,g,h,\"iii,jjj\"");
 
-        CSVReader c = new CSVReader(new StringReader(sb.toString()), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, CSVParser.DEFAULT_QUOTE_CHARACTER, CSVReader.DEFAULT_SKIP_LINES, CSVParser.DEFAULT_STRICT_QUOTES, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, CSVParser.DEFAULT_QUOTE_CHARACTER, AbstractCsvReader.DEFAULT_SKIP_LINES, CSVParser.DEFAULT_STRICT_QUOTES, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -510,7 +510,7 @@ public class CSVReaderTest {
 
         sb.append("a,b,c,ddd\\\"eee\nf,g,h,\"iii,jjj\"");
 
-        CSVReader c = new CSVReader(new StringReader(sb.toString()), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, CSVParser.DEFAULT_SEPARATOR, CSVReader.DEFAULT_SKIP_LINES, CSVParser.DEFAULT_STRICT_QUOTES, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, CSVParser.DEFAULT_SEPARATOR, AbstractCsvReader.DEFAULT_SKIP_LINES, CSVParser.DEFAULT_STRICT_QUOTES, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -519,7 +519,7 @@ public class CSVReaderTest {
 
         sb.append("a,b,c,ddd\\\"eee\nf,g,h,\"iii,jjj\"");
 
-        CSVReader c = new CSVReader(new StringReader(sb.toString()), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_ESCAPE_CHARACTER, CSVReader.DEFAULT_SKIP_LINES, CSVParser.DEFAULT_STRICT_QUOTES, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
+        AbstractCsvReader c = new CsvStreamReader(new StringReader(sb.toString()), CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_ESCAPE_CHARACTER, AbstractCsvReader.DEFAULT_SKIP_LINES, CSVParser.DEFAULT_STRICT_QUOTES, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
     }
 
 }

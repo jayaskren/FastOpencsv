@@ -19,7 +19,7 @@ package com.fastopencsv.bean;
 
 import org.junit.Test;
 
-import com.fastopencsv.CSVReader;
+import com.fastopencsv.CsvStreamReader;
 
 import java.beans.IntrospectionException;
 import java.io.IOException;

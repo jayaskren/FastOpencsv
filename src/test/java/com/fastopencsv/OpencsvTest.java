@@ -30,7 +30,7 @@ public class OpencsvTest {
 
 	private File tempFile = null;
 	private CSVWriter writer = null;
-	private CSVReader reader = null;
+	private AbstractCsvReader reader = null;
 
 	@Before
 	public void setUp() throws IOException {
@@ -52,7 +52,7 @@ public class OpencsvTest {
         }
 		writer.close();
 
-		reader = new CSVReader(new FileReader(tempFile));
+		reader = new CsvStreamReader(new FileReader(tempFile));
 
 		String[] line;
 		for (int row = 0; (line = reader.readNext()) != null; row++) {

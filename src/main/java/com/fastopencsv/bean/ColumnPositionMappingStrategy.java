@@ -3,7 +3,7 @@ package com.fastopencsv.bean;
 
 import java.io.IOException;
 
-import com.fastopencsv.CSVReader;
+import com.fastopencsv.AbstractCsvReader;
 
 
 /**
@@ -24,7 +24,7 @@ import com.fastopencsv.CSVReader;
 
 public class ColumnPositionMappingStrategy<T> extends HeaderColumnNameMappingStrategy<T> {
     private String[] columnMapping = new String[] {};
-    public void captureHeader(CSVReader reader) throws IOException {
+    public void captureHeader(AbstractCsvReader reader) throws IOException {
         //do nothing, first line is not header
     }
     protected String getColumnName(int col) {

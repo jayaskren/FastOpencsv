@@ -22,7 +22,7 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 
-import com.fastopencsv.CSVReader;
+import com.fastopencsv.AbstractCsvReader;
 
 
 public interface MappingStrategy<T> {
@@ -43,6 +43,6 @@ public interface MappingStrategy<T> {
      * @param reader the CSVReader to use for header parsing
      * @throws java.io.IOException if parsing fails
      */
-    public void captureHeader(CSVReader reader) throws IOException;
+    public void captureHeader(AbstractCsvReader reader) throws IOException;
 
 }

@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -22,30 +23,44 @@ public class LargeFileReadTest {
 //		String ADDRESS_FILE = "/LoC-FullSiteMap-reduced.csv";
 //		String ADDRESS_FILE = "/TB_data_dictionary_2014-03-31.csv";
 		int count = 0;
-		try (InputStream is = DataReader.class.getResourceAsStream(ADDRESS_FILE);
-				CSVReader reader = new CSVReader(new BufferedReader(new InputStreamReader(is)));
-				CSVWriter writer = new CSVWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("C:\\Jay\\test.csv")))))) {
+		
+		File streamFile = new File("./testStream.csv");
+		File nioFile = new File("./testNio.csv");
+		try (
+				InputStream is = DataReader.class.getResourceAsStream(ADDRESS_FILE);
+				AbstractCsvReader streamReader = new CsvStreamReader(new BufferedReader(new InputStreamReader(is)));
+				AbstractCsvReader nioReader = new CsvNioReader(new File(DataReader.class.getResource(ADDRESS_FILE).getFile()));
+				CSVWriter streamWriter = new CSVWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(streamFile))));
+				CSVWriter nioWriter = new CSVWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(nioFile))))) {
 
-			String[] nextLine = reader.readNext();
-			writer.writeNext(nextLine);
-			System.out.println(ADDRESS_FILE + " file has " + nextLine.length + " columns");
-//			assertEquals(4, nextLine.length);
-			assertEquals(36, nextLine.length);
-//			assertEquals(36, nextLine.length);
-			count++;
-			while((nextLine = reader.readNext()) != null)  {
-//				if (count == 9075){
-//					System.out.println(count + " " + Arrays.toString(nextLine));
-//				}
-				assertEquals("Broke at line " + count + ": ", 36, nextLine.length);
-				writer.writeNext(nextLine);
-				count++;
-			}
-//			assertEquals(264, count);
-//			assertEquals(9081, count);
-			assertEquals(275830, count);
+			testReader(streamReader, streamWriter, ADDRESS_FILE);
 			
 			System.out.println(ADDRESS_FILE + " file has " + count + " rows");
+		} finally {
+			streamFile.delete();
+			nioFile.delete();
 		}
+	}
+	
+	public void testReader(AbstractCsvReader reader, CSVWriter writer,  String addressFile) throws IOException {
+		String[] nextLine = reader.readNext();
+		int count = 0;
+		writer.writeNext(nextLine);
+		System.out.println(addressFile + " file has " + nextLine.length + " columns");
+//		assertEquals(4, nextLine.length);
+		assertEquals(36, nextLine.length);
+//		assertEquals(36, nextLine.length);
+		count++;
+		while((nextLine = reader.readNext()) != null)  {
+//			if (count == 9075){
+//				System.out.println(count + " " + Arrays.toString(nextLine));
+//			}
+			assertEquals("Broke at line " + count + ": ", 36, nextLine.length);
+			writer.writeNext(nextLine);
+			count++;
+		}
+//		assertEquals(264, count);
+//		assertEquals(9081, count);
+		assertEquals(275830, count);
 	}
 }

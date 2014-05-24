@@ -28,7 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fastopencsv.CSVReader;
+import com.fastopencsv.AbstractCsvReader;
+import com.fastopencsv.CsvStreamReader;
 
 
 public class CsvToBean<T> {
@@ -38,10 +39,10 @@ public class CsvToBean<T> {
     }
 
     public List<T> parse(MappingStrategy<T> mapper, Reader reader) {
-        return parse(mapper, new CSVReader(reader));
+        return parse(mapper, new CsvStreamReader(reader));
     }
 
-    public List<T> parse(MappingStrategy<T> mapper, CSVReader csv) {
+    public List<T> parse(MappingStrategy<T> mapper, AbstractCsvReader csv) {
         try {
             mapper.captureHeader(csv);
             String[] line;

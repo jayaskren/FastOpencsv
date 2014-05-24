@@ -10,7 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import com.fastopencsv.CSVReader;
+import com.fastopencsv.AbstractCsvReader;
+import com.fastopencsv.CsvStreamReader;
 
 /**
  * @author scott
@@ -27,7 +28,7 @@ public class DataReader
 	public static void main(String[] args) throws IOException
 	{
 		try (InputStream is = DataReader.class.getResourceAsStream(ADDRESS_FILE);
-				CSVReader reader = new CSVReader(new BufferedReader(new InputStreamReader(is)))) {
+				AbstractCsvReader reader = new CsvStreamReader(new BufferedReader(new InputStreamReader(is)))) {
 			
 			String [] nextLine;
 			while ((nextLine = reader.readNext()) != null) {

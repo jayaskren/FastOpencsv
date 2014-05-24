@@ -49,7 +49,7 @@ public class UniCodeTest {
 
     @Test
     public void runUniCodeThroughCSVReader() throws IOException {
-        CSVReader reader = new CSVReader(new StringReader(COMPOUND_STRING));
+        AbstractCsvReader reader = new CsvStreamReader(new StringReader(COMPOUND_STRING));
         String[] items = reader.readNext();
         assertEquals(2, items.length);
         assertEquals(FIRST_STRING, items[0]);
@@ -79,7 +79,7 @@ public class UniCodeTest {
         CSVWriter writer = new CSVWriter(sw);
         writer.writeNext(ASCII_ARRAY);
 
-        CSVReader reader = new CSVReader(new StringReader(sw.toString()));
+        AbstractCsvReader reader = new CsvStreamReader(new StringReader(sw.toString()));
         String[] items = reader.readNext();
         assertEquals(2, items.length);
         assertArrayEquals(ASCII_ARRAY, items);
@@ -92,7 +92,7 @@ public class UniCodeTest {
         writer.writeNext(ASCII_ARRAY);
         writer.writeNext(ASCII_ARRAY);
 
-        CSVReader reader = new CSVReader(new StringReader(sw.toString()));
+        AbstractCsvReader reader = new CsvStreamReader(new StringReader(sw.toString()));
         List<String[]> lines = reader.readAll();
         assertEquals(2, lines.size());
 
@@ -113,7 +113,7 @@ public class UniCodeTest {
         writer.writeNext(UNICODE_ARRAY);
         writer.writeNext(UNICODE_ARRAY);
 
-        CSVReader reader = new CSVReader(new StringReader(sw.toString()));
+        AbstractCsvReader reader = new CsvStreamReader(new StringReader(sw.toString()));
         List<String[]> lines = reader.readAll();
         assertEquals(2, lines.size());
 
@@ -134,7 +134,7 @@ public class UniCodeTest {
         writer.writeNext(MIXED_ARRAY);
         writer.writeNext(MIXED_ARRAY);
 
-        CSVReader reader = new CSVReader(new StringReader(sw.toString()));
+        AbstractCsvReader reader = new CsvStreamReader(new StringReader(sw.toString()));
         List<String[]> lines = reader.readAll();
         assertEquals(2, lines.size());
 
