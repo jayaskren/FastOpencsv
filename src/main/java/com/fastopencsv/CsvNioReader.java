@@ -188,13 +188,12 @@ public class CsvNioReader extends AbstractCsvReader {
 		if (buffer == null) {
 			buffer = new char[charBuf.remaining()];
 		}
-		int i = 0;
-		while (charBuf.hasRemaining()) {
-			this.buffer[i] = charBuf.get();
-			i++;
-		}
+		count = charBuf.remaining();
+		
+		charBuf.get(buffer, 0, Math.min(buffer.length, count));
+		
 		byteBuffer.clear();
-		return i;
+		return count;
 	}
 
 	@Override
