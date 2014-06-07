@@ -17,16 +17,14 @@ package com.fastopencsv.bean;
  */
 
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import com.fastopencsv.CsvStreamReader;
-
-import java.beans.IntrospectionException;
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class HeaderColumnNameMappingStrategyTest {
     private static final String TEST_STRING = "name,orderNumber,num\n" +

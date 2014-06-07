@@ -15,13 +15,17 @@ package com.fastopencsv;
  limitations under the License.
  */
 
-import org.junit.Test;
+import static org.junit.Assert.assertArrayEquals;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.sql.Types;
 import java.text.SimpleDateFormat;
 
-import static org.junit.Assert.assertArrayEquals;
+import org.junit.Test;
 
 /**
  * Created by IntelliJ IDEA.

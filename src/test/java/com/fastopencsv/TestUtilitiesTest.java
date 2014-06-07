@@ -1,8 +1,8 @@
 package com.fastopencsv;
 
-import org.junit.Test;
-
 import static junit.framework.Assert.assertEquals;
+
+import org.junit.Test;
 
 /**
  * Created by IntelliJ IDEA.

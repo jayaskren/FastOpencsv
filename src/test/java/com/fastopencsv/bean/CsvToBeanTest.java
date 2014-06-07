@@ -1,14 +1,14 @@
 package com.fastopencsv.bean;
 
-import org.junit.Test;
-
-import com.fastopencsv.AbstractCsvReader;
-import com.fastopencsv.CsvStreamReader;
-
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.io.StringReader;
+
+import org.junit.Test;
+
+import com.fastopencsv.AbstractCsvReader;
+import com.fastopencsv.CsvStreamReader;
 
 public class CsvToBeanTest {
 

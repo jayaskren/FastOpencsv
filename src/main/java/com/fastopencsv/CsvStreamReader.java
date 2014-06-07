@@ -19,6 +19,7 @@ package com.fastopencsv;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.CharBuffer;
 
 /**
  * A very simple CSV reader released under a commercial-friendly license.
@@ -28,167 +29,189 @@ import java.io.Reader;
  */
 public class CsvStreamReader extends AbstractCsvReader implements Closeable {
 	Reader reader;
-    /**
-     * Constructs CSVReader using a comma for the separator.
-     * 
-     * @param reader
-     *            the reader to an underlying CSV source.
-     */
-    public CsvStreamReader(Reader reader) {
-        this(reader, CSVParser.DEFAULT_SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, CSVParser.DEFAULT_ESCAPE_CHARACTER);
-    }
 
-    /**
-     * Constructs CSVReader with supplied separator.
-     * 
-     * @param reader
-     *            the reader to an underlying CSV source.
-     * @param separator
-     *            the delimiter to use for separating entries.
-     */
-    public CsvStreamReader(Reader reader, char separator) {
-        this(reader, separator, CSVParser.DEFAULT_QUOTE_CHARACTER, CSVParser.DEFAULT_ESCAPE_CHARACTER);
-    }
-
-    /**
-     * Constructs CSVReader with supplied separator and quote char.
-     * 
-     * @param reader
-     *            the reader to an underlying CSV source.
-     * @param separator
-     *            the delimiter to use for separating entries
-     * @param quotechar
-     *            the character to use for quoted elements
-     */
-    public CsvStreamReader(Reader reader, char separator, char quotechar) {
-        this(reader, separator, quotechar, CSVParser.DEFAULT_ESCAPE_CHARACTER, DEFAULT_SKIP_LINES, CSVParser.DEFAULT_STRICT_QUOTES);
-    }
-
-    /**
-     * Constructs CSVReader with supplied separator, quote char and quote handling
-     * behavior.
-     *
-     * @param reader
-     *            the reader to an underlying CSV source.
-     * @param separator
-     *            the delimiter to use for separating entries
-     * @param quotechar
-     *            the character to use for quoted elements
-     * @param strictQuotes
-     *            sets if characters outside the quotes are ignored
-     */
-    public CsvStreamReader(Reader reader, char separator, char quotechar, boolean strictQuotes) {
-        this(reader, separator, quotechar, CSVParser.DEFAULT_ESCAPE_CHARACTER, DEFAULT_SKIP_LINES, strictQuotes);
-    }
-
-   /**
-     * Constructs CSVReader with supplied separator and quote char.
-     *
-     * @param reader
-     *            the reader to an underlying CSV source.
-     * @param separator
-     *            the delimiter to use for separating entries
-     * @param quotechar
-     *            the character to use for quoted elements
-     * @param escape
-     *            the character to use for escaping a separator or quote
-     */
-
-    public CsvStreamReader(Reader reader, char separator,
-			char quotechar, char escape) {
-        this(reader, separator, quotechar, escape, DEFAULT_SKIP_LINES, CSVParser.DEFAULT_STRICT_QUOTES);
+	/**
+	 * Constructs CSVReader using a comma for the separator.
+	 * 
+	 * @param reader
+	 *            the reader to an underlying CSV source.
+	 */
+	public CsvStreamReader(Reader reader) {
+		this(reader, CSVParser.DEFAULT_SEPARATOR,
+				CSVParser.DEFAULT_QUOTE_CHARACTER,
+				CSVParser.DEFAULT_ESCAPE_CHARACTER);
 	}
-    
-    /**
-     * Constructs CSVReader with supplied separator and quote char.
-     * 
-     * @param reader
-     *            the reader to an underlying CSV source.
-     * @param separator
-     *            the delimiter to use for separating entries
-     * @param quotechar
-     *            the character to use for quoted elements
-     * @param line
-     *            the line number to skip for start reading 
-     */
-    public CsvStreamReader(Reader reader, char separator, char quotechar, int line) {
-        this(reader, separator, quotechar, CSVParser.DEFAULT_ESCAPE_CHARACTER, line, CSVParser.DEFAULT_STRICT_QUOTES);
-    }
 
-    /**
-     * Constructs CSVReader with supplied separator and quote char.
-     *
-     * @param reader
-     *            the reader to an underlying CSV source.
-     * @param separator
-     *            the delimiter to use for separating entries
-     * @param quotechar
-     *            the character to use for quoted elements
-     * @param escape
-     *            the character to use for escaping a separator or quote
-     * @param line
-     *            the line number to skip for start reading
-     */
-    public CsvStreamReader(Reader reader, char separator, char quotechar, char escape, int line) {
-        this(reader, separator, quotechar, escape, line, CSVParser.DEFAULT_STRICT_QUOTES);
-    }
-    
-    /**
-     * Constructs CSVReader with supplied separator and quote char.
-     * 
-     * @param reader
-     *            the reader to an underlying CSV source.
-     * @param separator
-     *            the delimiter to use for separating entries
-     * @param quotechar
-     *            the character to use for quoted elements
-     * @param escape
-     *            the character to use for escaping a separator or quote
-     * @param line
-     *            the line number to skip for start reading
-     * @param strictQuotes
-     *            sets if characters outside the quotes are ignored
-     */
-    public CsvStreamReader(Reader reader, char separator, char quotechar, char escape, int line, boolean strictQuotes) {
-        this(reader, separator, quotechar, escape, line, strictQuotes, CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
-    }
-
-    /**
-     * Constructs CSVReader with supplied separator and quote char.
-     * 
-     * @param reader
-     *            the reader to an underlying CSV source.
-     * @param separator
-     *            the delimiter to use for separating entries
-     * @param quotechar
-     *            the character to use for quoted elements
-     * @param escape
-     *            the character to use for escaping a separator or quote
-     * @param line
-     *            the line number to skip for start reading
-     * @param strictQuotes
-     *            sets if characters outside the quotes are ignored
-     * @param ignoreLeadingWhiteSpace
-     *            it true, parser should ignore white space before a quote in a field
-     */
-    public CsvStreamReader(Reader reader, char separator, char quotechar, char escape, int line, boolean strictQuotes, boolean ignoreLeadingWhiteSpace) {
-        this.reader = reader;
-        this.parser = new CSVParser(separator, quotechar, escape, strictQuotes, ignoreLeadingWhiteSpace);
-        this.skipLines = line;
-        buffer = new char[bufferSize];
-    }
-
-   public int read() throws IOException {
-		return reader.read(buffer);
+	/**
+	 * Constructs CSVReader with supplied separator.
+	 * 
+	 * @param reader
+	 *            the reader to an underlying CSV source.
+	 * @param separator
+	 *            the delimiter to use for separating entries.
+	 */
+	public CsvStreamReader(Reader reader, char separator) {
+		this(reader, separator, CSVParser.DEFAULT_QUOTE_CHARACTER,
+				CSVParser.DEFAULT_ESCAPE_CHARACTER);
 	}
-   
-   /**
+
+	/**
+	 * Constructs CSVReader with supplied separator and quote char.
+	 * 
+	 * @param reader
+	 *            the reader to an underlying CSV source.
+	 * @param separator
+	 *            the delimiter to use for separating entries
+	 * @param quotechar
+	 *            the character to use for quoted elements
+	 */
+	public CsvStreamReader(Reader reader, char separator, char quotechar) {
+		this(reader, separator, quotechar, CSVParser.DEFAULT_ESCAPE_CHARACTER,
+				DEFAULT_SKIP_LINES, CSVParser.DEFAULT_STRICT_QUOTES);
+	}
+
+	/**
+	 * Constructs CSVReader with supplied separator, quote char and quote
+	 * handling behavior.
+	 * 
+	 * @param reader
+	 *            the reader to an underlying CSV source.
+	 * @param separator
+	 *            the delimiter to use for separating entries
+	 * @param quotechar
+	 *            the character to use for quoted elements
+	 * @param strictQuotes
+	 *            sets if characters outside the quotes are ignored
+	 */
+	public CsvStreamReader(Reader reader, char separator, char quotechar,
+			boolean strictQuotes) {
+		this(reader, separator, quotechar, CSVParser.DEFAULT_ESCAPE_CHARACTER,
+				DEFAULT_SKIP_LINES, strictQuotes);
+	}
+
+	/**
+	 * Constructs CSVReader with supplied separator and quote char.
+	 * 
+	 * @param reader
+	 *            the reader to an underlying CSV source.
+	 * @param separator
+	 *            the delimiter to use for separating entries
+	 * @param quotechar
+	 *            the character to use for quoted elements
+	 * @param escape
+	 *            the character to use for escaping a separator or quote
+	 */
+
+	public CsvStreamReader(Reader reader, char separator, char quotechar,
+			char escape) {
+		this(reader, separator, quotechar, escape, DEFAULT_SKIP_LINES,
+				CSVParser.DEFAULT_STRICT_QUOTES);
+	}
+
+	/**
+	 * Constructs CSVReader with supplied separator and quote char.
+	 * 
+	 * @param reader
+	 *            the reader to an underlying CSV source.
+	 * @param separator
+	 *            the delimiter to use for separating entries
+	 * @param quotechar
+	 *            the character to use for quoted elements
+	 * @param line
+	 *            the line number to skip for start reading
+	 */
+	public CsvStreamReader(Reader reader, char separator, char quotechar,
+			int line) {
+		this(reader, separator, quotechar, CSVParser.DEFAULT_ESCAPE_CHARACTER,
+				line, CSVParser.DEFAULT_STRICT_QUOTES);
+	}
+
+	/**
+	 * Constructs CSVReader with supplied separator and quote char.
+	 * 
+	 * @param reader
+	 *            the reader to an underlying CSV source.
+	 * @param separator
+	 *            the delimiter to use for separating entries
+	 * @param quotechar
+	 *            the character to use for quoted elements
+	 * @param escape
+	 *            the character to use for escaping a separator or quote
+	 * @param line
+	 *            the line number to skip for start reading
+	 */
+	public CsvStreamReader(Reader reader, char separator, char quotechar,
+			char escape, int line) {
+		this(reader, separator, quotechar, escape, line,
+				CSVParser.DEFAULT_STRICT_QUOTES);
+	}
+
+	/**
+	 * Constructs CSVReader with supplied separator and quote char.
+	 * 
+	 * @param reader
+	 *            the reader to an underlying CSV source.
+	 * @param separator
+	 *            the delimiter to use for separating entries
+	 * @param quotechar
+	 *            the character to use for quoted elements
+	 * @param escape
+	 *            the character to use for escaping a separator or quote
+	 * @param line
+	 *            the line number to skip for start reading
+	 * @param strictQuotes
+	 *            sets if characters outside the quotes are ignored
+	 */
+	public CsvStreamReader(Reader reader, char separator, char quotechar,
+			char escape, int line, boolean strictQuotes) {
+		this(reader, separator, quotechar, escape, line, strictQuotes,
+				CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE);
+	}
+
+	/**
+	 * Constructs CSVReader with supplied separator and quote char.
+	 * 
+	 * @param reader
+	 *            the reader to an underlying CSV source.
+	 * @param separator
+	 *            the delimiter to use for separating entries
+	 * @param quotechar
+	 *            the character to use for quoted elements
+	 * @param escape
+	 *            the character to use for escaping a separator or quote
+	 * @param line
+	 *            the line number to skip for start reading
+	 * @param strictQuotes
+	 *            sets if characters outside the quotes are ignored
+	 * @param ignoreLeadingWhiteSpace
+	 *            it true, parser should ignore white space before a quote in a
+	 *            field
+	 */
+	public CsvStreamReader(Reader reader, char separator, char quotechar,
+			char escape, int line, boolean strictQuotes,
+			boolean ignoreLeadingWhiteSpace) {
+		this.reader = reader;
+		this.parser = new CSVParser(separator, quotechar, escape, strictQuotes,
+				ignoreLeadingWhiteSpace);
+		this.skipLines = line;
+		buffer = CharBuffer.allocate(this.bufferSize);
+	}
+
+	public int read() throws IOException {
+		buffer.clear();
+		int count = reader.read(buffer);
+		buffer.flip();
+		return count;
+	}
+
+	/**
 	 * Closes the underlying reader.
 	 * 
-	 * @throws IOException if the close fails
+	 * @throws IOException
+	 *             if the close fails
 	 */
 	public void close() throws IOException {
 		reader.close();
 	}
-    
+
 }

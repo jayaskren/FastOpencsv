@@ -1,6 +1,5 @@
 package com.fastopencsv.bean;
 
-
 /**
  Copyright 2007 Kyle Miller.
 
@@ -17,32 +16,38 @@ package com.fastopencsv.bean;
  limitations under the License.
  */
 
-
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 
 import com.fastopencsv.AbstractCsvReader;
 
-
 public interface MappingStrategy<T> {
 
-    /**
-     * Implementation will have to return a property descriptor from a bean based on the current column.
-     * @param col the column to find the description for
-     * @throws java.beans.IntrospectionException
-     * @return the related PropertyDescriptor
-     */
-    public abstract PropertyDescriptor findDescriptor(int col) throws IntrospectionException;
+	/**
+	 * Implementation will have to return a property descriptor from a bean
+	 * based on the current column.
+	 * 
+	 * @param col
+	 *            the column to find the description for
+	 * @throws java.beans.IntrospectionException
+	 * @return the related PropertyDescriptor
+	 */
+	public abstract PropertyDescriptor findDescriptor(int col)
+			throws IntrospectionException;
 
-    public abstract T createBean() throws InstantiationException, IllegalAccessException;
+	public abstract T createBean() throws InstantiationException,
+			IllegalAccessException;
 
-    /**
-     * Implementation of this method can grab the header line before parsing begins to use to map columns
-     * to bean properties.
-     * @param reader the CSVReader to use for header parsing
-     * @throws java.io.IOException if parsing fails
-     */
-    public void captureHeader(AbstractCsvReader reader) throws IOException;
+	/**
+	 * Implementation of this method can grab the header line before parsing
+	 * begins to use to map columns to bean properties.
+	 * 
+	 * @param reader
+	 *            the CSVReader to use for header parsing
+	 * @throws java.io.IOException
+	 *             if parsing fails
+	 */
+	public void captureHeader(AbstractCsvReader reader) throws IOException;
 
 }
