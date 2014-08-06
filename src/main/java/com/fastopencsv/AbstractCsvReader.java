@@ -29,17 +29,16 @@ public abstract class AbstractCsvReader implements AutoCloseable {
 		int i = start;
 		while (i < end && characters.hasRemaining()) {
 			// System.out.println("boundaries " + characters);
-			if (characters.get(i) == '\n' || characters.get(i) == '\r') {
+			if (characters.get(i) == '\r' || characters.get(i) == '\n') {
 				int previousPos = i - 1;
-				if (returnValue[0] >= 0 && previousPos >= returnValue[0]) {
+				if (previousPos >= returnValue[0] && returnValue[0] >= 0) {
 					// We have already set the first position. Now we have
 					// reached the end of this line.
 					// Set the second position
 					returnValue[1] = previousPos; // TODO
 					break;
 				} else {
-					returnValue[1] = i;
-					returnValue[0] = i;
+					returnValue[1] = returnValue[0] = i;
 					break;
 				}
 

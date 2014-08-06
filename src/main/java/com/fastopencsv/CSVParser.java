@@ -214,7 +214,7 @@ public class CSVParser {
 	private String[] parseLine(char[] nextLine, boolean multi)
 			throws IOException {
 
-		if (!multi && pending != null) {
+		if (pending != null && !multi) {
 			pending = null;
 		}
 
@@ -300,7 +300,7 @@ public class CSVParser {
 		if (inQuotes) {
 			if (multi) {
 				// continuing a quoted section, re-append newline
-				sb.append("\n");
+				sb.append('\n');
 				pending = sb.toString();
 				sb = null; // this partial content is not to be added to field
 							// list yet
@@ -313,7 +313,7 @@ public class CSVParser {
 			tokensOnThisLine.add(sb.toString());
 		}
 		return tokensOnThisLine.toArray(new String[tokensOnThisLine.size()]);
-
+		
 	}
 
 	/**
@@ -367,7 +367,7 @@ public class CSVParser {
 		boolean result = true;
 		for (int i = 0; i < sb.length(); i++) {
 			char c = sb.charAt(i);
-
+			
 			if (!Character.isWhitespace(c)) {
 				return false;
 			}
