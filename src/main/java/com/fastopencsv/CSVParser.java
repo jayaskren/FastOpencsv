@@ -329,12 +329,11 @@ public class CSVParser {
 	 */
 	private final boolean isNextCharacterEscapedQuote(char[] nextLine,
 			boolean inQuotes, int i) {
-		int next = i + 1;
 		return inQuotes // we are in quotes, therefore there can be escaped
 						// quotes in here.
-				&& nextLine.length > (next) // there is indeed another
+				&& nextLine.length > (i+1) // there is indeed another
 												// character to check.
-				&& nextLine[next] == quotechar;
+				&& nextLine[i+1] == quotechar;
 	}
 
 	/**
