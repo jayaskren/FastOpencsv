@@ -17,6 +17,7 @@ public abstract class AbstractCsvReader implements AutoCloseable {
 	protected long totalCharactersRead = 0;
 	protected int charactersRead;
 	protected char[] nextLine;
+	
 	/**
 	 * The default line to start reading.
 	 */
