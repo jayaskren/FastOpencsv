@@ -1,4 +1,4 @@
 FastOpencsv
 ===========
 
-A Very efficient version of Opencsv in Java
+Experiment to try improve the efficiency of OpenCsv in Java
